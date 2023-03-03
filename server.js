@@ -6,7 +6,10 @@ const {sequelize} = require("./db");
 const port = 3000;
 
 //TODO: Create your GET Request Route Below: 
-
+app.get('/restaurants', async (request, response) => {
+    const foundRestaurants = await Restaurant.findAll();
+    response.json(foundRestaurants)
+})
 
 app.listen(port, () => {
     sequelize.sync();
