@@ -11,6 +11,12 @@ app.get('/restaurants', async (request, response) => {
     response.json(foundRestaurants)
 })
 
+//get request route to endpoint with an id
+app.get('/restaurants/:id', async (request, response) => {
+    const idRestaurants = await Restaurant.findByPk(request.params.id)
+    response.json(idRestaurants)
+})
+
 app.listen(port, () => {
     sequelize.sync();
     console.log("Your server is listening on port " + port);
