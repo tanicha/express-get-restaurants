@@ -17,7 +17,7 @@ router.get('/:id', async (request, response) => {
 })
 
 //post request route for adding a new restaurant (creating new restaurant)
-router.post('/', [check("name").not().isEmpty().trim(), check("location").not().isEmpty().trim(), check("cuisine").not().isEmpty().trim()], async (request, response) => {
+router.post('/', [check("name").not().isEmpty().trim(), check("location").not().isEmpty().trim(), check("cuisine").not().isEmpty().trim(), check("name").isLength({min: 10, max: 30})], async (request, response) => {
     const errors = validationResult(request)
     if (!errors.isEmpty()){
         response.json({errors: errors.array()})
