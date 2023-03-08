@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const {Restaurant} = require("../models/index")
 const seedRestaurant = require("../seedData");
+const {check, validatorResult, validationResult} = require('express-validator')
 
 //TODO: Create your GET Request Route Below: 
 router.get('/', async (request, response) => {
@@ -16,13 +17,18 @@ router.get('/:id', async (request, response) => {
 })
 
 //post request route for adding a new restaurant (creating new restaurant)
-router.post('/', async (request, response) => {
-    const newRestaurant = await Restaurant.create({
-        name: request.body.name,
-        location: request.body.location,
-        cuisine: request.body.cuisine
-    })
-    response.json(newRestaurant)
+router.post('/', [check("name").not().isEmpty().trim(), check("location").not().isEmpty().trim(), check("cuisine").not().isEmpty().trim()], async (request, response) => {
+    const errors = validationResult(request)
+    if (!errors.isEmpty()){
+        response.json({errors: errors.array()})
+    } else {
+        const newRestaurant = await Restaurant.create({
+            name: request.body.name,
+            location: request.body.location,
+            cuisine: request.body.cuisine
+        })
+        response.json(newRestaurant)
+    }
 })
 
 //put request for updating a restaurant with specific id (updating restaurant)

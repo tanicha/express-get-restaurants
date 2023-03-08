@@ -3,6 +3,7 @@ const app = express();
 const {sequelize} = require("./db");
 const restaurantRouter = require("./routers/restaurants")
 
+
 const port = 3000;
 
 app.use(express.json());
